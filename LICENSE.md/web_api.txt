@@ -1,0 +1,52 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+
+namespace api_auth2.Controllers
+{
+    public class User
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string DOB { get; set; }
+        public string Place { get; set; }
+    }
+
+    [RoutePrefix("api/Test")]
+    public class TestController : ApiController
+    {
+        // GET: api/GetUserInfo
+        // GET api/Test/ManageInfo?returnUrl=%2F&generateState=true
+
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public List<User> UserInfo()
+        {
+            return GetUsers();
+        }
+
+        [HttpPost]
+        [Route("SetUserInfo")]
+        public List<User> SetUserInfo([FromBody]int Id)
+        {
+            //int Id = 1;
+            List<User> users = GetUsers().Where(x => x.Id == Id).ToList();
+            return users;
+        }
+
+        private static List<User> GetUsers()
+        {
+            return new List<User> {
+                new User { Id =0,Name="Reshmi",DOB = "12/22/2011",Place = "Bangalore"},
+                new User { Id =1,Name="Ram",DOB = "1/22/2012",Place = "Bangalore1"},
+                new User { Id =2,Name="Rinesh",DOB = "11/22/2013",Place = "Bangalore2"},
+                new User { Id =3,Name="Reshmi",DOB = "10/22/2014"},
+                new User { Id =4,Name="John",DOB = "10/22/2015"},
+                };
+        }
+
+    }
+}
